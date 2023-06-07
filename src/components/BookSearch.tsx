@@ -1,39 +1,36 @@
-import { component$, useSignal } from "@builder.io/qwik";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { component$, useSignal } from '@builder.io/qwik';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { gql } from 'graphql-tag';
 
 const client = new ApolloClient({
-  uri: "https://localhost:3000/graphql",
+  uri: 'https://localhost:3000/graphql',
   cache: new InMemoryCache(),
 });
-async function getBooks(searchTerm: string) {
-  const { data } = await client.query({
-    query: gql`
-      query ($searchTerm: String) {
-        buecher(filter: { titel: { contains: $searchTerm } }) {
-          id
+
+export async function getBooks(searchTerm: any) {
+  if(typeof searchTerm !== 'number' || isNaN(searchTerm)) {
+    return null;
+  }
+  const { data } = await client.query({ 
+    query: gql `
+  {
+      buch(id: ${searchTerm}) {
           version
           isbn
-          rating
           art
-          preis
-          rabatt
-          lieferbar
-          datum
-          homepage
-          schlagwoerter
+          titel {
+              titel
         }
       }
-    `,
-    variables: { searchTerm },
-  });
-  console.log(data.buecher);
+    }
+  ` });
+  console.log(data);
 
-  return data.buecher;
+  return data;
 }
 
 export const BookSearch = component$(() => {
-  const searchTerm = useSignal("");
-  const setSearchTerm = useSignal("");
+  const searchTerm = useSignal('');
   const books = useSignal([]);
   const setBooks = useSignal([]);
   getBooks(searchTerm.value).then((data) => {
@@ -45,10 +42,10 @@ export const BookSearch = component$(() => {
       <div class="book-search">
         <input
           class="search-input"
-          type="text"
+          type="number"
           placeholder="Bücher suchen..."
           value={searchTerm.value}
-          onChange$={(e: any) => (setSearchTerm.value = e.target.value)}
+          onChange$={(e: any) => (searchTerm.value = e.target.value)}
         />
         <button
           class="search-button"
