@@ -12,17 +12,16 @@ getBooks(60)
   });
 
 export default component$(() => {
-  return (
-    <BookSearch/>
-  );
+  return <BookSearch />;
 });
 
 export const head: DocumentHead = {
-  title: 'Welcome to Qwik',
+  title: "Buecher suchen",
   meta: [
     {
-      name: 'description',
-      content: 'Qwik site description',
+      name: "description",
+      content: "Qwik site description",
     },
   ],
 };
+
