@@ -1,16 +1,15 @@
-import { component$, useSignal } from '@builder.io/qwik';
+import { component$, useSignal } from "@builder.io/qwik";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 const client = new ApolloClient({
   uri: "https://localhost:3000/graphql",
   cache: new InMemoryCache(),
 });
-
-async function getBooks() {
+async function getBooks(searchTerm: string) {
   const { data } = await client.query({
     query: gql`
-      query {
-        buecher {
+      query ($searchTerm: String) {
+        buecher(filter: { titel: { contains: $searchTerm } }) {
           id
           version
           isbn
@@ -22,12 +21,13 @@ async function getBooks() {
           datum
           homepage
           schlagwoerter
-          erzeugt
-          aktualisiert
-        }     
+        }
       }
     `,
+    variables: { searchTerm },
   });
+  console.log(data.buecher);
+
   return data.buecher;
 }
 
@@ -36,11 +36,9 @@ export const BookSearch = component$(() => {
   const setSearchTerm = useSignal("");
   const books = useSignal([]);
   const setBooks = useSignal([]);
-  getBooks().then((data) => {
+  getBooks(searchTerm.value).then((data) => {
     setBooks.value = data;
   });
-
-  
 
   return (
     <>
@@ -50,10 +48,16 @@ export const BookSearch = component$(() => {
           type="text"
           placeholder="Bücher suchen..."
           value={searchTerm.value}
-          onChange$={(e: any) => setSearchTerm.value = (e.target.value)}
+          onChange$={(e: any) => (setSearchTerm.value = e.target.value)}
         />
-        <button class="search-button">Suchen</button>
-
+        <button
+          class="search-button"
+          onClick$={() =>
+            getBooks(searchTerm.value).then((data) => (setBooks.value = data))
+          }
+        >
+          Suchen
+        </button>
         <div class="book-list">
           <div class="book-row">
             <div class="book-column book-id">ID</div>
@@ -67,8 +71,6 @@ export const BookSearch = component$(() => {
             <div class="book-column">Datum</div>
             <div class="book-column">Homepage</div>
             <div class="book-column">Schlagwörter</div>
-            <div class="book-column">Erzeugt</div>
-            <div class="book-column">Aktualisiert</div>
           </div>
           {books.value.map((book: any) => (
             <div class="book-row" key={book.id}>
@@ -86,11 +88,9 @@ export const BookSearch = component$(() => {
               <div class="book-column">{book.erzeugt}</div>
               <div class="book-column">{book.aktualisiert}</div>
             </div>
-
           ))}
         </div>
       </div>
     </>
   );
-}
-);
+});
