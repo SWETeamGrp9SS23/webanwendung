@@ -1,0 +1,69 @@
+import { $, component$, useSignal } from "@builder.io/qwik";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { gql } from "graphql-tag";
+
+//nur bei neu laden der Webseite werden die daten abgerufen und im server log angezeigt
+// ist das normal oder muss ich das noch anders machen?
+
+const client = new ApolloClient({
+  uri: "https://localhost:3000/graphql",
+  cache: new InMemoryCache(),
+});
+console.log("das ergebnis der funktion ist" + getBooks(1));
+export async function getBooks(searchTerm: any) {
+  console.log("der client : " + client);
+  console.log("Die suchvariable ist:" + searchTerm);
+  if (typeof searchTerm !== "number" && searchTerm !== null) {
+    {
+      console.log(
+        "bei mir wird das immer ausgelößt egal ob ich in index eine zahl angebe oder nicht " +
+          searchTerm
+      );
+      return null;
+    }
+  }
+  if (searchTerm === "string") {
+    console.log("searchTerm ist ein string" + searchTerm);
+    return null;
+  }
+  const { data } = await client.query({
+    query: gql`
+  {
+      buch(id: ${searchTerm}) {
+          version
+          isbn
+          art
+          titel {
+              titel
+        }
+      }
+    }
+  `,
+  });
+  return data;
+}
+
+
+
+export const FindByTitel = component$(() => {
+
+
+  const searchTerm = useSignal("");
+  console.log(searchTerm);
+  const books = useSignal([] as any[]); // Standardwert als leeres Array vom Typ 'any[]'
+  //const setBooks = useSignal([]);
+  console.log(books);
+  const BookSearch = $(() => {
+    getBooks(searchTerm.value).then((data) => (books.value = data));
+
+
+   
+
+
+
+  return (
+   null
+    );
+    });
+});
+
