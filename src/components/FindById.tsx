@@ -11,37 +11,52 @@ const client = new ApolloClient({
 });
 
 
-
-
 export async function getBooksById() {
 
- 
+ // useSignal um den Suchbegriff zu speichern
   const searchTerm = useSignal("");
   console.log(searchTerm);
+
+  // useSignal um die Bücher zu speichern in einer Liste
   const books = useSignal([] as any[]); // Standardwert als leeres Array vom Typ 'any[]'
+  console.log(books);
+
+  // zum aktualisieren der gespeichrten Bücher von books
   const setBooks = useSignal([]);
   console.log(books);
+
+  // um zu entscheiden ob die werte angezeigt werden sollen oder nicht
   const showTable = useSignal(false);
-  const buecher = useSignal([] as any[]);
-  console.log(buecher); 
+
+  // zum aktualisieren der gespeichrten Bücher von showTable
+  const setShowTable = useSignal(false);
 
  const BookSearch = async () => {
+// vielleicht hier eine if klasuel um zu checken ob eine zahl dann wird der rest ausgeführt sonst wird in
+// find by titel etc injectetd und dann wird das ausgeführt
+
+// hier separate funktionen für isbn, titel etc. und dann hier aufrufen
+const GET_Data = gql`
+query {
+  buch(id: ${searchTerm}) {
+    version
+    isbn
+    art
+    titel { 
+      titel
+    }
+  }
 
     try {
-    const { data } = await client.query({
-    query: gql`
-  {
-      buch(id: ${searchTerm}) {
-          version
-          isbn
-          art
-          titel {
-              titel
-        }
-      }
-    }
-    });
+    // hier will ich die daten abrufen und dann in die liste speichern
 
+    const { data } = await client.query({
+      query: GET_Data,  
+      variables: { id: searchTerm }
+    });
+    console.log(data);
+
+    // Mittagspause
     if (data._embedded && data._embedded.buecher) {
       setBooks(data._embedded.buecher);
       setShowTable(true);
