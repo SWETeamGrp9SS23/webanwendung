@@ -69,6 +69,7 @@ export const BookSearch = component$(() => {
             <div class="book-column">Homepage</div>
             <div class="book-column">Schlagwörter</div>
           </div>
+
           {books.value.map((book: any) => (
             <div class="book-row" key={book.id}>
               <div class="book-column book-id">{book.id}</div>
