@@ -1,18 +1,30 @@
 import { component$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
-import {BookSearch} from '../components/BookSearch';
 import {getBooks} from '../components/BookSearch';
 
-getBooks(60)
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((error) => {
-    console.error(error)
-  });
 
-export default component$(() => {
-  return <BookSearch />;
+ export default component$(() => {
+ /* const handleSearch = 
+  $(() => {
+    const searchInput = document.querySelector('.search-input');
+    const searchTerm = searchInput;
+    getBooks(searchTerm);
+  }); */
+
+  return (<body>
+    <input
+          class="search-input"
+          type="number"
+          placeholder="Bücher suchen..."
+        />
+    <button class="search-button"
+    // eslint-disable-next-line qwik/valid-lexical-scope
+    onClick$={$(() => {
+      const searchInput = document.querySelector('.search-input');
+      const searchTerm = searchInput;
+      getBooks(searchTerm);
+    })}>Suche Buch</button>
+  </body>);
 });
 
 export const head: DocumentHead = {
