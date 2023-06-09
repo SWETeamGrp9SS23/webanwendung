@@ -10,8 +10,9 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+// Component
 
-export async function getBooksById() {
+export const getBooksByISBN = component$(() => {
 
  // useSignal um den Suchbegriff zu speichern
   const searchTerm = useSignal("");
@@ -31,37 +32,42 @@ export async function getBooksById() {
   // zum aktualisieren der gespeichrten Bücher von showTable
   const setShowTable = useSignal(false);
 
- const BookSearch = async () => {
-// vielleicht hier eine if klasuel um zu checken ob eine zahl dann wird der rest ausgeführt sonst wird in
-// find by titel etc injectetd und dann wird das ausgeführt
-
-// hier separate funktionen für isbn, titel etc. und dann hier aufrufen
 const GET_Data = gql`
 query {
-  buch(id: ${searchTerm}) {
+  buch(isbn: ${searchTerm}) {
     version
     isbn
     art
     titel { 
       titel
     }
-  }
 
-    try {
-    // hier will ich die daten abrufen und dann in die liste speichern
+}}
+
+// Hook glaube ich 
+ export const BookSearch = async () => {
+
+// hier separate funktionen für isbn, titel etc. und dann hier aufrufen
+
+// Daten abrufen
+
+
+// Daten anzeigen
+  try {
+// hier muss ich noch mit den Apollo docs chekcken wie ich das machen muss
 
     const { data } = await client.query({
       query: GET_Data,  
-      variables: { id: searchTerm }
+      variables: { isbn: searchTerm }
     });
     console.log(data);
-
-    // Mittagspause
-    if (data._embedded && data._embedded.buecher) {
-      setBooks(data._embedded.buecher);
+  
+    if (data ==! null || data ==! undefined || data ==! ot) {
+      setBooks(data);
       setShowTable(true);
       setError('');
-      console.log(data._embedded.buecher);
+      console.log(data);
+
     } else {
       setBooks([]);
       setShowTable(false);
@@ -74,14 +80,7 @@ query {
     setShowTable(false);
   }
 
-
-
-  return data;
-}
-
-
-
-
+};
   return (
     <>
       <div class="book-search">
@@ -92,9 +91,9 @@ query {
           value={searchTerm.value}
           onChange$={(e: any) => (searchTerm.value = e.target.value)}
         />
-        <button class="search-button" onClick={BookSearch}>
+         <button class="search-button" onClick$={() => setBooks.value}>
           Suchen
-        </button>
+    </button>
         <div class="book-list">
           <div class="book-row">
             <div class="book-column book-id">ID</div>
@@ -129,6 +128,5 @@ query {
       </div>
     </>
   );
-});
-
+}
 
