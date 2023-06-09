@@ -19,11 +19,14 @@ import {getBooks} from '../components/BookSearch';
         />
     <button class="search-button"
     // eslint-disable-next-line qwik/valid-lexical-scope
-    onClick$={$(() => {
+    onClick$={() => {
       const searchInput = document.querySelector('.search-input');
-      const searchTerm = searchInput;
-      getBooks(searchTerm);
-    })}>Suche Buch</button>
+      if (searchInput instanceof HTMLInputElement) {
+        const searchTerm = searchInput.value; 
+        getBooks(searchTerm);
+        console.log("suche nach ID" + searchTerm);
+      }
+    }}>Suche Buch</button>
   </body>);
 });
 
