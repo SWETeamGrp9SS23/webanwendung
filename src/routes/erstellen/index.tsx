@@ -104,7 +104,7 @@ export const BookCreate = component$(() => {
           <label>Lieferbar:</label>
           <input
             type="checkbox"
-            //Todo lieferbar datentyp anpassen (nachschauen)
+            //toDo hier anpassen lieferbar datentyp -> ändern
             // checked={book.value.lieferbar}
             // onChange$={(e) => (book.value.lieferbar = e.target.checked)}
           />

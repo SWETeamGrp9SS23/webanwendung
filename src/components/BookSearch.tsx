@@ -1,15 +1,15 @@
-import { component$, useSignal } from '@builder.io/qwik';
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { gql } from 'graphql-tag';
+import { component$, useSignal } from "@builder.io/qwik";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { gql } from "graphql-tag";
 
 const client = new ApolloClient({
-  uri: 'https://localhost:3000/graphql/',
+  uri: "https://localhost:3000/graphql/",
   cache: new InMemoryCache(),
 });
 
 export async function getBooks(searchTerm: any) {
   console.log("Ich bin in getBooks!");
-  const GET_data = gql `
+  const GET_data = gql`
     query {
       buch(id: ${searchTerm}) {
           version
@@ -22,17 +22,17 @@ export async function getBooks(searchTerm: any) {
     }
   `;
   console.log(GET_data);
-    const { data } = await client.query({
-      query: GET_data,
-      variables: {id: searchTerm}
-    });
+  const { data } = await client.query({
+    query: GET_data,
+    variables: { id: searchTerm },
+  });
   console.log(data);
 
   return data;
 }
 
 export const BookSearch = component$(() => {
-  const searchTerm = useSignal('');
+  const searchTerm = useSignal("");
   const books = useSignal([]);
   const setBooks = useSignal([]);
   getBooks(searchTerm.value).then((data) => {
