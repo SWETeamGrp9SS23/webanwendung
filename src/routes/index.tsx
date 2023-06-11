@@ -1,4 +1,4 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useSignal } from "@builder.io/qwik";
 import { getBooks } from "../components/BookSearch";
 
 interface BookSearchProps {
@@ -18,6 +18,11 @@ class BookService {
 const bookService = new BookService();
 
 export default component$<BookSearchProps>(() => {
+  const count = useSignal(0);
+  const setBook = useSignal("");
+    const setBookObject = useSignal("");
+
+
   return (
     <div class="container">
       <div class="input-group mb-3">
@@ -34,6 +39,7 @@ export default component$<BookSearchProps>(() => {
             type="button"
             id="button-addon2"
             onClick$={async () => {
+              count.value++;
               const searchInput = document.querySelector(".form-control");
               if (searchInput instanceof HTMLInputElement) {
                 const searchTerm = searchInput.value;
@@ -47,6 +53,9 @@ export default component$<BookSearchProps>(() => {
                   "Buch im BookService:",
                   JSON.stringify(bookService.getFoundBook(), null, 2)
                 );
+                setBook.value = bookService.getFoundBook().buch;
+                setBookObject.value = bookService.getFoundBook().buch.titel;
+                console.log("ISBN: " + setBook.value);
               }
             }}
           >
@@ -55,16 +64,13 @@ export default component$<BookSearchProps>(() => {
         </div>
       </div>
       <div class="text-center">
-        <h1>Gefundene Bücher:</h1>
-        {bookService && bookService.getFoundBook() && (
-          <>
-            <h2>Ergebnis:</h2>
-            <h3>Titel: {bookService.getFoundBook().buch.titel.titel}</h3>
-            <h3>ISBN: {bookService.getFoundBook().buch.isbn}</h3>
-            <h3>Version: {bookService.getFoundBook().buch.version}</h3>
-            <h3>Art: {bookService.getFoundBook().buch.art}</h3>
-          </>
-        )}
+        <h1>Suchanfragen: {count.value}</h1> <h1>Gefundene Bücher:</h1>
+        <h2>Ergebnis:</h2>
+        <h2>ISBN: {setBook.value.isbn}</h2>
+        <h2>Titel: {setBookObject.value.titel}</h2>
+        <h2>Buchtyp: {setBook.value.__typename}</h2>
+        <h2>Version: {setBook.value.version}</h2>
+        <h2>Art: {setBook.value.art}</h2>
       </div>
     </div>
   );
