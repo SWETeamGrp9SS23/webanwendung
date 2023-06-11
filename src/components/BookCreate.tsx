@@ -8,33 +8,32 @@ const client = new ApolloClient({
 
 export async function createBooks(input: any) {
   console.log("Ich bin in createBooks!");
-  const CREATE_data(input: CreateBookInput!) = gql`
-    mutation {
-      create (input: input)(
-        input: {
-          isbn
-          rating
-          art
-          preis
-          rabatt
-          lieferbar
-          datum
-          homepage
-        titel: {
-          titel,
-          untertitel,
-        },
-        abbildungen: [{
+  const CREATE_data = gql`
+    mutation CreateBook($input: CreateBookInput!) {
+      createBook(input: $input) {
+        isbn
+        rating
+        art
+        preis
+        rabatt
+        lieferbar
+        datum
+        homepage
+        titel {
+          titel
+          untertitel
+        }
+        abbildungen {
           beschriftung
           contentType
-        }]
         }
-      )
+      }
     }
   `;
   console.log(CREATE_data);
   const { data } = await client.mutate({
     mutation: CREATE_data,
+    variables: { input },
   });
   console.log(data);
 

@@ -1,7 +1,7 @@
 import { component$, useSignal } from "@builder.io/qwik";
 import { createBooks } from "../../components/BookCreate";
 
-//toDo wie müssen wir createBooks einstellen?
+//toDo wie müssen Wir
 interface BookCreateProps {
   bookService: BookService;
 }
@@ -132,8 +132,8 @@ export default component$<BookCreateProps>(() => {
         <input
           type="text"
           class="form-control"
-          placeholder="Content Type"
-          aria-label="Content Type"
+          placeholder="ContentType"
+          aria-label="ContentType"
           aria-describedby="button-addon2"
         />
       </div>
@@ -171,7 +171,7 @@ export default component$<BookCreateProps>(() => {
               "input[aria-label=Beschriftung]",
             );
             const contentTypeInput = document.querySelector(
-              "input[aria-label=Content Type]",
+              "input[aria-label=ContentType]",
             );
 
             if (
@@ -201,9 +201,7 @@ export default component$<BookCreateProps>(() => {
               const beschriftung = beschriftungInput.value;
               const contentType = contentTypeInput.value;
 
-              console.log("Erstelle Buch mit ISBN: " + isbn);
-
-              const book = await createBook({
+              const book = await createBooks({
                 input: {
                   isbn,
                   rating,
@@ -225,7 +223,8 @@ export default component$<BookCreateProps>(() => {
                   ],
                 },
               });
-              console.log("Erstelltes Buch: " + book);
+              console.log("Erstelltes Buch: ");
+              console.log(book);
 
               // eslint-disable-next-line qwik/valid-lexical-scope
               bookService.setCreatedBook(book);
@@ -234,6 +233,8 @@ export default component$<BookCreateProps>(() => {
                 JSON.stringify(bookService.getCreatedBook(), null, 2),
               );
               setBook.value = bookService.getCreatedBook().buch;
+              console.log("Erstelltes Buch: ");
+              console.log(book);
             }
           }}
         >
