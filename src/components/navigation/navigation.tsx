@@ -11,7 +11,7 @@ export const Navigation = component$(() => {
             <Link href="/">Home</Link>
           </li>
           <li>
-            <Link href="suchen">Buch suchen</Link>
+            <Link href="/suchen/">Buch suchen</Link>
           </li>
           <li>
             <Link href="/erstellen">Buch erstellen</Link>
