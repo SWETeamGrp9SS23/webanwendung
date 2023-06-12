@@ -1,10 +1,16 @@
 import { component$, useSignal } from "@builder.io/qwik";
 import { authBooks } from "../../components/BookAuth";
+import { userInfo } from "os";
 
 interface LoginProps {
   authService: AuthService;
 }
 
+// interface user {
+//   token: string;
+//   expiresIn: string;
+//   roles: Array<string>;
+// }
 class AuthService {
   private loggedInUser: any | null = null;
   setLoggedInUser(user: any) {
@@ -20,6 +26,7 @@ const authService = new AuthService();
 export default component$<LoginProps>(() => {
   const setUsername = useSignal("");
   const setPassword = useSignal("");
+  const getOutput = useSignal("");
 
   return (
     <div class="container">
@@ -66,10 +73,34 @@ export default component$<LoginProps>(() => {
               "Benutzer im AuthService:",
               JSON.stringify(authService.getLoggedInUser(), null, 2),
             );
+            getOutput.value = authService.getLoggedInUser().login;
+            console.log("User:");
+            console.log(getOutput.value.token);
           }}
         >
           Anmelden
         </button>
+      </div>
+      <div class="text-center">
+        <h1>Daten vom Login:</h1>
+        <div class="flex flex-col">
+          <div class="flex">
+            <div class="w-1/2 px-4 py-2 font-bold">Eigenschaft</div>
+            <div class="w-1/2 px-4 py-2 font-bold">Wert</div>
+          </div>
+          <div class="flex">
+            <div class="w-1/2 px-4 py-2">token</div>
+            <div class="w-1/2 px-4 py-2">{getOutput.value.token}</div>
+          </div>
+          <div class="flex">
+            <div class="w-1/2 px-4 py-2">expiresIn</div>
+            <div class="w-1/2 px-4 py-2">{getOutput.value.expiresIn}</div>
+          </div>
+          <div class="flex">
+            <div class="w-1/2 px-4 py-2">roles</div>
+            <div class="w-1/2 px-4 py-2">{getOutput.value.roles}</div>
+          </div>
+        </div>
       </div>
     </div>
   );
