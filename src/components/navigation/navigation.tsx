@@ -14,13 +14,10 @@ export const Navigation = component$(() => {
             <Link href="/suchen/">Buch suchen</Link>
           </li>
           <li>
-            <Link href="/erstellen">Buch erstellen</Link>
+            <Link href="/login/">Login</Link>
           </li>
           <li>
-            <Link href="/updaten">Buch updaten</Link>
-          </li>
-          <li>
-            <Link href="/löschen">Buch löschen</Link>
+            <Link href="/erstellen/">Buch erstellen</Link>
           </li>
         </ul>
       </div>
