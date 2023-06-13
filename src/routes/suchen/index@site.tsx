@@ -43,18 +43,25 @@ export default component$<BookSearchProps>(() => {
               if (searchInput instanceof HTMLInputElement) {
                 const searchTerm = searchInput.value;
                 console.log("suche nach ID: " + searchTerm);
-                const book = await getBooks(searchTerm);
-                console.log("Gefundenes Buch: " + book);
+                try {
+                  const book = await getBooks(searchTerm);
+                  console.log("Gefundenes Buch: " + book);
 
-                // eslint-disable-next-line qwik/valid-lexical-scope
-                bookService.setFoundBook(book);
-                console.log(
-                  "Buch im BookService:",
-                  JSON.stringify(bookService.getFoundBook(), null, 2),
-                );
-                setBook.value = bookService.getFoundBook().buch;
-                setBookObject.value = bookService.getFoundBook().buch.titel;
-                console.log("ISBN: " + setBook.value);
+                  // eslint-disable-next-line qwik/valid-lexical-scope
+                  bookService.setFoundBook(book);
+                  console.log(
+                    "Buch im BookService:",
+                    JSON.stringify(bookService.getFoundBook(), null, 2),
+                  );
+                  setBook.value = bookService.getFoundBook().buch;
+                  setBookObject.value = bookService.getFoundBook().buch.titel;
+                  console.log("ISBN: " + setBook.value);
+                } catch (error) {
+                  if (error.graphQLErrors) {
+                    const message = error.graphQLErrors[0].message;
+                    alert(message);
+                  }
+                }
               }
             }}
           >

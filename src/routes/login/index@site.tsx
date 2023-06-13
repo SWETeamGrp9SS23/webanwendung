@@ -64,18 +64,25 @@ export default component$<LoginProps>(() => {
                 " und Passwort: " +
                 password,
             );
-            const user = await authBooks(username, password);
-            console.log("Angemeldeter Benutzer: " + user);
+            try {
+              const user = await authBooks(username, password);
+              console.log("Angemeldeter Benutzer: " + user);
 
-            // eslint-disable-next-line qwik/valid-lexical-scope
-            authService.setLoggedInUser(user);
-            console.log(
-              "Benutzer im AuthService:",
-              JSON.stringify(authService.getLoggedInUser(), null, 2),
-            );
-            getOutput.value = authService.getLoggedInUser().login;
-            console.log("User:");
-            console.log(getOutput.value.token);
+              // eslint-disable-next-line qwik/valid-lexical-scope
+              authService.setLoggedInUser(user);
+              console.log(
+                "Benutzer im AuthService:",
+                JSON.stringify(authService.getLoggedInUser(), null, 2),
+              );
+              getOutput.value = authService.getLoggedInUser().login;
+              console.log("User:");
+              console.log(getOutput.value.token);
+            } catch (error) {
+              if (error.graphQLErrors) {
+                const message = error.graphQLErrors[0].message;
+                alert(message);
+              }
+            }
           }}
         >
           Anmelden
