@@ -1,7 +1,5 @@
 import { component$, useSignal } from "@builder.io/qwik";
 import { authBooks } from "../../components/BookAuth";
-import { userInfo } from "os";
-
 interface LoginProps {
   authService: AuthService;
 }
@@ -77,7 +75,7 @@ export default component$<LoginProps>(() => {
               getOutput.value = authService.getLoggedInUser().login;
               console.log("User:");
               console.log(getOutput.value.token);
-            } catch (error) {
+            } catch (error: any) {
               if (error.graphQLErrors) {
                 const message = error.graphQLErrors[0].message;
                 alert(message);

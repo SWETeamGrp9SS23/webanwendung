@@ -46,7 +46,6 @@ export default component$<BookSearchProps>(() => {
                 try {
                   const book = await getBooks(searchTerm);
                   console.log("Gefundenes Buch: " + book);
-
                   // eslint-disable-next-line qwik/valid-lexical-scope
                   bookService.setFoundBook(book);
                   console.log(
@@ -56,7 +55,7 @@ export default component$<BookSearchProps>(() => {
                   setBook.value = bookService.getFoundBook().buch;
                   setBookObject.value = bookService.getFoundBook().buch.titel;
                   console.log("ISBN: " + setBook.value);
-                } catch (error) {
+                } catch (error: any) {
                   if (error.graphQLErrors) {
                     const message = error.graphQLErrors[0].message;
                     alert(message);
