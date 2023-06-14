@@ -50,7 +50,7 @@ export default component$<BookSearchProps>(() => {
                 bookService.setFoundBook(book);
                 console.log(
                   "Buch im BookService:",
-                  JSON.stringify(bookService.getFoundBook(), null, 2),
+                  JSON.stringify(bookService.getFoundBook(), null, 2)
                 );
                 setBook.value = bookService.getFoundBook().buch;
                 setBookObject.value = bookService.getFoundBook().buch.titel;

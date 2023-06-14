@@ -62,7 +62,7 @@ export default component$<LoginProps>(() => {
               "Anmeldung mit Benutzername: " +
                 username +
                 " und Passwort: " +
-                password,
+                password
             );
             const user = await authBooks(username, password);
             console.log("Angemeldeter Benutzer: " + user);
@@ -71,7 +71,7 @@ export default component$<LoginProps>(() => {
             authService.setLoggedInUser(user);
             console.log(
               "Benutzer im AuthService:",
-              JSON.stringify(authService.getLoggedInUser(), null, 2),
+              JSON.stringify(authService.getLoggedInUser(), null, 2)
             );
             getOutput.value = authService.getLoggedInUser().login;
             console.log("User:");

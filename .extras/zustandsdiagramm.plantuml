@@ -1,0 +1,20 @@
+@startuml Zustandsdiagramm
+
+skinparam backgroundColor #FFFFFF
+
+[*] --> Components
+Components --> BookAuth
+Components --> BookCreate
+Components --> BookSearch
+BookSearch --> Routes
+BookCreate --> Routes
+BookAuth --> Routes
+Routes --> Erstellen
+Routes --> Login
+Routes --> Suchen
+Erstellen --> Routes
+Login --> Routes
+Suchen --> Routes
+Routes --> [*]
+
+@enduml

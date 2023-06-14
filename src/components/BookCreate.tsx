@@ -9,25 +9,11 @@ const client = new ApolloClient({
 export async function createBooks(input: any) {
   console.log("Ich bin in createBooks!");
   const CREATE_data = gql`
-    mutation CreateBook($input: CreateBookInput!) {
-      createBook(input: $input) {
-        isbn
-        rating
-        art
-        preis
-        rabatt
-        lieferbar
-        datum
-        homepage
-        titel {
-          titel
-          untertitel
+    mutation {
+        create (input: ${input}) {
+            id
+            isbn
         }
-        abbildungen {
-          beschriftung
-          contentType
-        }
-      }
     }
   `;
   console.log(CREATE_data);
@@ -35,6 +21,9 @@ export async function createBooks(input: any) {
     mutation: CREATE_data,
     variables: { input },
   });
+
+  console.log("DIESES BEIDEN LOGS BRAUCHE ICH!");
+  console.log("Mutation abgeschlossen mit: ");
   console.log(data);
 
   return data;

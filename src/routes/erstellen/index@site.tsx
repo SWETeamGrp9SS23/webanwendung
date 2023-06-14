@@ -144,34 +144,34 @@ export default component$<BookCreateProps>(() => {
           id="button-addon2"
           onClick$={async () => {
             const isbnInput = document.querySelector(
-              'input[aria-label="ISBN"]',
+              'input[aria-label="ISBN"]'
             );
             const ratingInput = document.querySelector(
-              'input[aria-label="Bewertung"]',
+              'input[aria-label="Bewertung"]'
             );
             const artInput = document.querySelector('input[aria-label="Art"]');
             const preisInput = document.querySelector(
-              'input[aria-label="Preis"]',
+              'input[aria-label="Preis"]'
             );
             const rabattInput = document.querySelector(
-              'input[aria-label="Rabatt"]',
+              'input[aria-label="Rabatt"]'
             );
             const lieferbarInput = document.querySelector("select");
             const datumInput = document.querySelector("input[type='date']");
             const homepageInput = document.querySelector(
-              'input[aria-label="Homepage"]',
+              'input[aria-label="Homepage"]'
             );
             const titelInput = document.querySelector(
-              'input[aria-label="Titel"]',
+              'input[aria-label="Titel"]'
             );
             const untertitelInput = document.querySelector(
-              'input[aria-label="Untertitel"]',
+              'input[aria-label="Untertitel"]'
             );
             const beschriftungInput = document.querySelector(
-              "input[aria-label=Beschriftung]",
+              "input[aria-label=Beschriftung]"
             );
             const contentTypeInput = document.querySelector(
-              "input[aria-label=ContentType]",
+              "input[aria-label=ContentType]"
             );
 
             if (
@@ -230,7 +230,7 @@ export default component$<BookCreateProps>(() => {
               bookService.setCreatedBook(book);
               console.log(
                 "Buch im BookService:",
-                JSON.stringify(bookService.getCreatedBook(), null, 2),
+                JSON.stringify(bookService.getCreatedBook(), null, 2)
               );
               setBook.value = bookService.getCreatedBook().buch;
               console.log("Erstelltes Buch: ");
