@@ -23,7 +23,6 @@ export default component$<BookCreateProps>(() => {
   const setUntertitel = useSignal("");
   const setBeschriftung = useSignal("");
   const setContentType = useSignal("");
-  const setToken = useSignal("");
   const setRating = useSignal("");
   const setPreis = useSignal("");
   const setRabatt = useSignal("");
@@ -131,18 +130,7 @@ export default component$<BookCreateProps>(() => {
           onInput$={(e) => (setContentType.value = e.target.value)}
         />
       </div>
-      <div>
-        <div class="input-group mb-3">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="token"
-            aria-label="token"
-            aria-describedby="button-addon2"
-            onInput$={(e) => (setToken.value = e.target.value)}
-          />
-        </div>
-      </div>
+      <div></div>
       <div class="input-group-append">
         <button
           class="btn btn-outline-secondary"
@@ -159,7 +147,8 @@ export default component$<BookCreateProps>(() => {
             const preis = parseFloat(setPreis.value);
             const rabatt = parseFloat(setRabatt.value);
             const lieferbar = setLieferbar.value === true;
-            const token = setToken.value;
+            //JWT-Token aus Local Storage der Website holen
+            const token = localStorage.getItem("jwtToken");
 
             const book = await createBooks(
               isbn,

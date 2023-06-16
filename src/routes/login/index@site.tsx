@@ -75,6 +75,7 @@ export default component$<LoginProps>(() => {
               getOutput.value = authService.getLoggedInUser().login;
               console.log("User:");
               console.log(getOutput.value.token);
+              localStorage.setItem("jwtToken", getOutput.value.token);
             } catch (error: any) {
               if (error.graphQLErrors) {
                 const message = error.graphQLErrors[0].message;
