@@ -16,10 +16,13 @@ class BookService {
   }
 }
 
-const bookService = new BookService();
-
 export default component$<BookCreateProps>(() => {
-  const setBook = useSignal("");
+  const setIsbn = useSignal("");
+  const setHomepage = useSignal("");
+  const setTitel = useSignal("");
+  const setUntertitel = useSignal("");
+  const setBeschriftung = useSignal("");
+  const setContentType = useSignal("");
 
   return (
     <div class="container">
@@ -31,65 +34,7 @@ export default component$<BookCreateProps>(() => {
           placeholder="ISBN"
           aria-label="ISBN"
           aria-describedby="button-addon2"
-        />
-      </div>
-      <div class="input-group mb-3">
-        <input
-          type="number"
-          class="form-control"
-          placeholder="Bewertung"
-          aria-label="Bewertung"
-          aria-describedby="button-addon2"
-        />
-      </div>
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Art"
-          aria-label="Art"
-          aria-describedby="button-addon2"
-        />
-      </div>
-      <div class="input-group mb-3">
-        <input
-          type="number"
-          class="form-control"
-          placeholder="Preis"
-          aria-label="Preis"
-          aria-describedby="button-addon2"
-        />
-      </div>
-      <div class="input-group mb-3">
-        <input
-          type="number"
-          class="form-control"
-          placeholder="Rabatt"
-          aria-label="Rabatt"
-          aria-describedby="button-addon2"
-        />
-      </div>
-      <div class="input-group mb-3">
-        <select
-          class="form-control"
-          placeholder=""
-          aria-label=""
-          aria-describedby=""
-        >
-          <option value="" disabled selected>
-            Lieferbar
-          </option>
-          <option value={true}>Ja</option>
-          <option value={false}>Nein</option>
-        </select>
-      </div>
-      <div class="input-group mb-3">
-        <input
-          type="date"
-          class="form-control"
-          placeholder=""
-          aria-label=""
-          aria-describedby=""
+          onInput$={(e) => (setIsbn.value = e.target.value)}
         />
       </div>
       <div class="input-group mb-3">
@@ -99,6 +44,7 @@ export default component$<BookCreateProps>(() => {
           placeholder="Homepage"
           aria-label="Homepage"
           aria-describedby="button-addon2"
+          onInput$={(e) => (setHomepage.value = e.target.value)}
         />
       </div>
       <div class="input-group mb-3">
@@ -108,6 +54,7 @@ export default component$<BookCreateProps>(() => {
           placeholder="Titel"
           aria-label="Titel"
           aria-describedby="button-addon2"
+          onInput$={(e) => (setTitel.value = e.target.value)}
         />
       </div>
       <div class="input-group mb-3">
@@ -117,6 +64,7 @@ export default component$<BookCreateProps>(() => {
           placeholder="Untertitel"
           aria-label="Untertitel"
           aria-describedby="button-addon2"
+          onInput$={(e) => (setUntertitel.value = e.target.value)}
         />
       </div>
       <div class="input-group mb-3">
@@ -126,6 +74,7 @@ export default component$<BookCreateProps>(() => {
           placeholder="Beschriftung"
           aria-label="Beschriftung"
           aria-describedby="button-addon2"
+          onInput$={(e) => (setBeschriftung.value = e.target.value)}
         />
       </div>
       <div class="input-group mb-3">
@@ -135,6 +84,7 @@ export default component$<BookCreateProps>(() => {
           placeholder="ContentType"
           aria-label="ContentType"
           aria-describedby="button-addon2"
+          onInput$={(e) => (setContentType.value = e.target.value)}
         />
       </div>
       <div class="input-group-append">
@@ -143,102 +93,25 @@ export default component$<BookCreateProps>(() => {
           type="button"
           id="button-addon2"
           onClick$={async () => {
-            const isbnInput = document.querySelector(
-              'input[aria-label="ISBN"]',
-            );
-            const ratingInput = document.querySelector(
-              'input[aria-label="Bewertung"]',
-            );
-            const artInput = document.querySelector('input[aria-label="Art"]');
-            const preisInput = document.querySelector(
-              'input[aria-label="Preis"]',
-            );
-            const rabattInput = document.querySelector(
-              'input[aria-label="Rabatt"]',
-            );
-            const lieferbarInput = document.querySelector("select");
-            const datumInput = document.querySelector("input[type='date']");
-            const homepageInput = document.querySelector(
-              'input[aria-label="Homepage"]',
-            );
-            const titelInput = document.querySelector(
-              'input[aria-label="Titel"]',
-            );
-            const untertitelInput = document.querySelector(
-              'input[aria-label="Untertitel"]',
-            );
-            const beschriftungInput = document.querySelector(
-              "input[aria-label=Beschriftung]",
-            );
-            const contentTypeInput = document.querySelector(
-              "input[aria-label=ContentType]",
-            );
+            const isbn = setIsbn.value;
+            const homepage = setHomepage.value;
+            const titel = setTitel.value;
+            const untertitel = setUntertitel.value;
+            const beschriftung = setBeschriftung.value;
+            const contentType = setContentType.value;
 
-            if (
-              isbnInput instanceof HTMLInputElement &&
-              ratingInput instanceof HTMLInputElement &&
-              artInput instanceof HTMLInputElement &&
-              preisInput instanceof HTMLInputElement &&
-              rabattInput instanceof HTMLInputElement &&
-              lieferbarInput instanceof HTMLSelectElement &&
-              datumInput instanceof HTMLInputElement &&
-              homepageInput instanceof HTMLInputElement &&
-              titelInput instanceof HTMLInputElement &&
-              untertitelInput instanceof HTMLInputElement &&
-              beschriftungInput instanceof HTMLInputElement &&
-              contentTypeInput instanceof HTMLInputElement
-            ) {
-              const isbn = isbnInput.value;
-              const rating = ratingInput.value;
-              const art = artInput.value;
-              const preis = preisInput.value;
-              const rabatt = rabattInput.value;
-              const lieferbar = lieferbarInput.value;
-              const datum = datumInput.value;
-              const homepage = homepageInput.value;
-              const titel = titelInput.value;
-              const untertitel = untertitelInput.value;
-              const beschriftung = beschriftungInput.value;
-              const contentType = contentTypeInput.value;
-
-              const book = await createBooks({
-                input: {
-                  isbn,
-                  rating,
-                  art,
-                  preis,
-                  rabatt,
-                  lieferbar,
-                  datum,
-                  homepage,
-                  titel: {
-                    titel,
-                    untertitel,
-                  },
-                  abbildungen: [
-                    {
-                      beschriftung,
-                      contentType,
-                    },
-                  ],
-                },
-              });
-              console.log("Erstelltes Buch: ");
-              console.log(book);
-
-              // eslint-disable-next-line qwik/valid-lexical-scope
-              bookService.setCreatedBook(book);
-              console.log(
-                "Buch im BookService:",
-                JSON.stringify(bookService.getCreatedBook(), null, 2),
-              );
-              setBook.value = bookService.getCreatedBook().buch;
-              console.log("Erstelltes Buch: ");
-              console.log(book);
-            }
+            const book = await createBooks(
+              isbn,
+              homepage,
+              titel,
+              untertitel,
+              beschriftung,
+              contentType,
+            );
+            console.log("Erstelltes Buch: " + book);
           }}
         >
-          Buch erstellen
+          Buch Suchen
         </button>
       </div>
     </div>
