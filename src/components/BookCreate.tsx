@@ -13,6 +13,11 @@ export async function createBooks(
   untertitel: String,
   beschriftung: String,
   contentType: String,
+  rating: Number,
+  preis: Number,
+  rabatt: Number,
+  lieferbar: Boolean,
+  token: String,
 ) {
   console.log("Ich bin in createBooks!");
   const CREATE_data = gql`
@@ -23,11 +28,19 @@ export async function createBooks(
       $untertitel: String!
       $beschriftung: String!
       $contentType: String!
+      $rating: Int!
+      $preis: Float!
+      $rabatt: Float!
+      $lieferbar: Boolean!
     ) {
       create(
         input: {
           isbn: $isbn
           homepage: $homepage
+          rating: $rating
+          preis: $preis
+          rabatt: $rabatt
+          lieferbar: $lieferbar
           titel: { titel: $titel, untertitel: $untertitel }
           abbildungen: [
             { beschriftung: $beschriftung, contentType: $contentType }
@@ -40,7 +53,23 @@ export async function createBooks(
   console.log(CREATE_data);
   const { data } = await client.mutate({
     mutation: CREATE_data,
-    variables: { isbn, homepage, titel, untertitel, beschriftung, contentType },
+    variables: {
+      isbn,
+      homepage,
+      titel,
+      untertitel,
+      beschriftung,
+      contentType,
+      preis,
+      rating,
+      rabatt,
+      lieferbar,
+    },
+    context: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   });
   console.log(data);
 
