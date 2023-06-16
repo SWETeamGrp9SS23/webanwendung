@@ -150,20 +150,27 @@ export default component$<BookCreateProps>(() => {
             //JWT-Token aus Local Storage der Website holen
             const token = localStorage.getItem("jwtToken");
 
-            const book = await createBooks(
-              isbn,
-              homepage,
-              titel,
-              untertitel,
-              beschriftung,
-              contentType,
-              rating,
-              preis,
-              rabatt,
-              lieferbar,
-              token,
-            );
-            console.log("Erstelltes Buch: " + book);
+            try {
+              const book = await createBooks(
+                isbn,
+                homepage,
+                titel,
+                untertitel,
+                beschriftung,
+                contentType,
+                rating,
+                preis,
+                rabatt,
+                lieferbar,
+                token,
+              );
+              console.log("Erstelltes Buch: " + book);
+            } catch (error: any) {
+              if (error.graphQLErrors) {
+                const message = error.graphQLErrors[0].message;
+                alert(message);
+              }
+            }
           }}
         >
           Buch Erstellen
