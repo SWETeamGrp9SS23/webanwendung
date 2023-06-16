@@ -1,5 +1,7 @@
 import { component$, useSignal } from "@builder.io/qwik";
 import { createBooks } from "../../components/BookCreate";
+import { FaIcon } from "qwik-fontawesome";
+import { faBook, faBookOpen } from "@fortawesome/free-solid-svg-icons";
 
 //toDo wie müssen Wir
 interface BookCreateProps {
@@ -30,7 +32,6 @@ export default component$<BookCreateProps>(() => {
 
   return (
     <div class="container">
-      <h1>Buch erstellen</h1>
       <div class="input-group mb-3">
         <input
           type="text"
@@ -173,6 +174,7 @@ export default component$<BookCreateProps>(() => {
             }
           }}
         >
+          <FaIcon icon={faBookOpen} />
           Buch Erstellen
         </button>
       </div>
