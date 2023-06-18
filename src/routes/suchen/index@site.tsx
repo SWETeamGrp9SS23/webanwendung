@@ -1,10 +1,9 @@
-import { component$, useSignal } from "@builder.io/qwik";
-import { getBooks } from "../../components/BookSearch";
+import { component$, useSignal } from '@builder.io/qwik';
+import { getBooks } from '../../components/BookSearch';
 //Fontawesome
-import { FaIcon, FaStylesheet } from "qwik-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-
-interface BookSearchProps {
+import { FaIcon, FaStylesheet } from 'qwik-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import 
   bookService: BookService;
 }
 
@@ -33,16 +32,6 @@ function displayBookDetails(book: any) {
         <li>Lieferbar: {book.lieferbar}</li>
         <li>Titel: {book.titel.titel}</li>
         <li>Untertitel: {book.titel.untertitel}</li>
-        <li>Abbildungen:</li>
-        <ul>
-          {book.abbildungen &&
-            book.abbildungen.map((abbildung: any) => (
-              <li key={abbildung.beschriftung}>
-                Beschriftung: {abbildung.beschriftung}, Content Type:{" "}
-                {abbildung.contentType}
-              </li>
-            ))}
-        </ul>
       </ul>
     </div>
   );
@@ -50,7 +39,7 @@ function displayBookDetails(book: any) {
 
 export default component$<BookSearchProps>(() => {
   const count = useSignal(0);
-  const setBook = useSignal("");
+  const setBook = useSignal('');
 
   return (
     <>
@@ -73,21 +62,21 @@ export default component$<BookSearchProps>(() => {
               id="button-addon2"
               onClick$={async () => {
                 count.value++;
-                const searchInput = document.querySelector(".form-control");
+                const searchInput = document.querySelector('.form-control');
                 if (searchInput instanceof HTMLInputElement) {
                   const searchTerm = searchInput.value;
-                  console.log("suche nach ID: " + searchTerm);
+                  console.log('suche nach ID: ' + searchTerm);
                   try {
                     const book = await getBooks(searchTerm);
-                    console.log("Gefundenes Buch: " + book);
+                    console.log('Gefundenes Buch: ' + book);
                     // eslint-disable-next-line qwik/valid-lexical-scope
                     bookService.setFoundBook(book);
                     console.log(
-                      "Buch im BookService:",
+                      'Buch im BookService:',
                       JSON.stringify(bookService.getFoundBook(), null, 2),
                     );
                     setBook.value = bookService.getFoundBook().buch;
-                    console.log("ISBN: " + setBook.value);
+                    console.log('ISBN: ' + setBook.value);
                   } catch (error: any) {
                     if (error.graphQLErrors) {
                       const message = error.graphQLErrors[0].message;

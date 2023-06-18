@@ -1,16 +1,15 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { gql } from "graphql-tag";
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { gql } from 'graphql-tag';
 
 const client = new ApolloClient({
-  uri: "https://localhost:3000/graphql/",
+  uri: 'https://localhost:3000/graphql/',
   cache: new InMemoryCache(),
 });
 
 export async function getBooks(searchTerm: any) {
-  console.log("Ich bin in getBooks!");
   const GET_data = gql`
-    query {
-      buch(id: ${searchTerm}) {
+    query GetBook($id: ID!) {
+      buch(id: $id) {
         version
         isbn
         art
@@ -23,17 +22,39 @@ export async function getBooks(searchTerm: any) {
           titel
           untertitel
         }
-        abbildungen {
-          beschriftung
-          contentType
+      }
+    }
+  `;
+  const { data } = await client.query({
+    query: GET_data,
+    variables: { id: searchTerm },
+  });
+
+  return data;
+}
+
+export async function getAllBooks() {
+  const GET_ALL_DATA = gql`
+    query {
+      buch {
+        version
+        isbn
+        art
+        homepage
+        rating
+        preis
+        rabatt
+        lieferbar
+        titel {
+          titel
+          untertitel
         }
       }
     }
   `;
-  console.log(GET_data);
+  console.log(GET_ALL_DATA);
   const { data } = await client.query({
-    query: GET_data,
-    variables: { id: searchTerm },
+    query: GET_ALL_DATA,
   });
   console.log(data);
 

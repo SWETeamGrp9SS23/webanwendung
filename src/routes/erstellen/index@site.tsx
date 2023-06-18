@@ -1,7 +1,7 @@
-import { component$, useSignal } from "@builder.io/qwik";
-import { createBooks } from "../../components/BookCreate";
-import { FaIcon } from "qwik-fontawesome";
-import { faBook, faBookOpen } from "@fortawesome/free-solid-svg-icons";
+import { component$, useSignal } from '@builder.io/qwik';
+import { createBooks } from '../../components/BookCreate';
+import { FaIcon } from 'qwik-fontawesome';
+import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 
 //toDo wie müssen Wir
 interface BookCreateProps {
@@ -19,15 +19,15 @@ class BookService {
 }
 
 export default component$<BookCreateProps>(() => {
-  const setIsbn = useSignal("");
-  const setHomepage = useSignal("");
-  const setTitel = useSignal("");
-  const setUntertitel = useSignal("");
-  const setBeschriftung = useSignal("");
-  const setContentType = useSignal("");
-  const setRating = useSignal("");
-  const setPreis = useSignal("");
-  const setRabatt = useSignal("");
+  const setIsbn = useSignal('');
+  const setHomepage = useSignal('');
+  const setTitel = useSignal('');
+  const setUntertitel = useSignal('');
+  const setBeschriftung = useSignal('');
+  const setContentType = useSignal('');
+  const setRating = useSignal('');
+  const setPreis = useSignal('');
+  const setRabatt = useSignal('');
   const setLieferbar = useSignal(Boolean);
 
   return (
@@ -149,7 +149,7 @@ export default component$<BookCreateProps>(() => {
             const rabatt = parseFloat(setRabatt.value);
             const lieferbar = setLieferbar.value === true;
             //JWT-Token aus Local Storage der Website holen
-            const token = localStorage.getItem("jwtToken");
+            const token = localStorage.getItem('jwtToken');
 
             try {
               const book = await createBooks(
@@ -165,7 +165,7 @@ export default component$<BookCreateProps>(() => {
                 lieferbar,
                 token,
               );
-              console.log("Erstelltes Buch: " + book);
+              console.log('Erstelltes Buch: ' + book);
             } catch (error: any) {
               if (error.graphQLErrors) {
                 const message = error.graphQLErrors[0].message;
