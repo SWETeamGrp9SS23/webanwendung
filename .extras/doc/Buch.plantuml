@@ -1,25 +1,29 @@
 @startuml Zustandsdiagramm
 [*] --> StartMenü
 
-StartMenü --> Login: Klicke "Anmelden"
-StartMenü --> Home: Klicke "Startseite"
-
-Login --> StartMenü: Anmeldung erfolgreich
-Login --> Login: Anmeldung fehlgeschlagen
-
 state StartMenü {
+  [*] --> StartMenü: Zeige Startmenü
+  StartMenü --> Login: Klicke "Login"
+  StartMenü --> BuchSuche: Klicke "Buch suchen"
+  StartMenü --> BuchErstellen: Klicke "Buch erstellen"
 }
 
 state Login {
-}
-
-state Home {
+  Login --> BuchErstellen: Klicke "Buch erstellen"
+  Login --> BuchSuche: Klicke "Buch suchen"
+  Login --> StartMenü: Klicke "Home"
 }
 
 state BuchSuche {
+  BuchSuche --> BuchDetails: Suche abschicken
+  BuchSuche --> Login: Klicke "Login"
+  BuchSuche --> BuchErstellen: Klicke "Buch erstellen"
+  BuchSuche --> StartMenü: Klicke "Home"
 }
 
 state BuchErstellen {
+  BuchErstellen --> BuchErstellt: Klicke "Buch erstellen"
+  BuchErstellen --> StartMenü: Klicke "Home"
 }
 
 state BuchDetails {
@@ -28,29 +32,14 @@ state BuchDetails {
 state BuchErstellt {
 }
 
+StartMenü -down-> Login
+Login -down-> BuchSuche
+BuchSuche -down-> BuchErstellen
+
 StartMenü: Zeige Startmenü
 Login: Zeige Anmeldeseite
-Home: Zeige Startseite
 BuchSuche: Zeige Buchsuche-Seite
 BuchErstellen: Zeige Bucherstellungsseite
-BuchDetails: Zeige Buchdetails
+BuchDetails: Zeige Buchdetails (ISBN, Titel, Buchtyp, Version, Art)
 BuchErstellt: Zeige Bestätigung für Bucherstellung
-
-StartMenü --> Login: Klicke "Anmelden"
-Login --> StartMenü: Klicke "Abbrechen"
-
-StartMenü --> BuchSuche: Klicke "Buch suchen"
-StartMenü --> BuchErstellen: Klicke "Buch erstellen"
-
-BuchSuche --> BuchDetails: Suche abschicken
-BuchSuche --> StartMenü: Klicke "Zurück"
-
-BuchErstellen --> StartMenü: Klicke "Zurück"
-BuchErstellen --> BuchErstellt: Klicke "Buch erstellen"
-
-BuchErstellt --> StartMenü: Klicke "Zurück"
-
-Login --> Home: Klicke "Anmelden"
-
-Home --> StartMenü: Klicke "Abmelden"
 @enduml
