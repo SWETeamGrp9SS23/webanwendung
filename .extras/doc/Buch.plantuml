@@ -1,0 +1,56 @@
+@startuml Zustandsdiagramm
+[*] --> StartMenü
+
+StartMenü --> Login: Klicke "Anmelden"
+StartMenü --> Home: Klicke "Startseite"
+
+Login --> StartMenü: Anmeldung erfolgreich
+Login --> Login: Anmeldung fehlgeschlagen
+
+state StartMenü {
+}
+
+state Login {
+}
+
+state Home {
+}
+
+state BuchSuche {
+}
+
+state BuchErstellen {
+}
+
+state BuchDetails {
+}
+
+state BuchErstellt {
+}
+
+StartMenü: Zeige Startmenü
+Login: Zeige Anmeldeseite
+Home: Zeige Startseite
+BuchSuche: Zeige Buchsuche-Seite
+BuchErstellen: Zeige Bucherstellungsseite
+BuchDetails: Zeige Buchdetails
+BuchErstellt: Zeige Bestätigung für Bucherstellung
+
+StartMenü --> Login: Klicke "Anmelden"
+Login --> StartMenü: Klicke "Abbrechen"
+
+StartMenü --> BuchSuche: Klicke "Buch suchen"
+StartMenü --> BuchErstellen: Klicke "Buch erstellen"
+
+BuchSuche --> BuchDetails: Suche abschicken
+BuchSuche --> StartMenü: Klicke "Zurück"
+
+BuchErstellen --> StartMenü: Klicke "Zurück"
+BuchErstellen --> BuchErstellt: Klicke "Buch erstellen"
+
+BuchErstellt --> StartMenü: Klicke "Zurück"
+
+Login --> Home: Klicke "Anmelden"
+
+Home --> StartMenü: Klicke "Abmelden"
+@enduml
