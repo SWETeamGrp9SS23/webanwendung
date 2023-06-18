@@ -1,16 +1,10 @@
-import { component$, useSignal } from "@builder.io/qwik";
-import { authBooks } from "../../components/BookAuth";
-import { FaIcon, FaStylesheet } from "qwik-fontawesome";
-import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { component$, useSignal } from '@builder.io/qwik';
+import { authBooks } from '../../components/BookAuth';
+import { FaIcon, FaStylesheet } from 'qwik-fontawesome';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 interface LoginProps {
   authService: AuthService;
 }
-
-// interface user {
-//   token: string;
-//   expiresIn: string;
-//   roles: Array<string>;
-// }
 class AuthService {
   private loggedInUser: any | null = null;
   setLoggedInUser(user: any) {
@@ -24,9 +18,9 @@ class AuthService {
 const authService = new AuthService();
 
 export default component$<LoginProps>(() => {
-  const setUsername = useSignal("");
-  const setPassword = useSignal("");
-  const getOutput = useSignal("");
+  const setUsername = useSignal('');
+  const setPassword = useSignal('');
+  const getOutput = useSignal('');
 
   return (
     <>
@@ -63,25 +57,25 @@ export default component$<LoginProps>(() => {
               const username = setUsername.value;
               const password = setPassword.value;
               console.log(
-                "Anmeldung mit Benutzername: " +
+                'Anmeldung mit Benutzername: ' +
                   username +
-                  " und Passwort: " +
+                  ' und Passwort: ' +
                   password,
               );
               try {
                 const user = await authBooks(username, password);
-                console.log("Angemeldeter Benutzer: " + user);
+                console.log('Angemeldeter Benutzer: ' + user);
 
                 // eslint-disable-next-line qwik/valid-lexical-scope
                 authService.setLoggedInUser(user);
                 console.log(
-                  "Benutzer im AuthService:",
+                  'Benutzer im AuthService:',
                   JSON.stringify(authService.getLoggedInUser(), null, 2),
                 );
                 getOutput.value = authService.getLoggedInUser().login;
-                console.log("User:");
+                console.log('User:');
                 console.log(getOutput.value.token);
-                localStorage.setItem("jwtToken", getOutput.value.token);
+                localStorage.setItem('jwtToken', getOutput.value.token);
               } catch (error: any) {
                 if (error.graphQLErrors) {
                   const message = error.graphQLErrors[0].message;

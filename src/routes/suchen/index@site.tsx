@@ -3,7 +3,8 @@ import { getBooks } from '../../components/BookSearch';
 //Fontawesome
 import { FaIcon, FaStylesheet } from 'qwik-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import 
+
+interface BookSearchProps {
   bookService: BookService;
 }
 
