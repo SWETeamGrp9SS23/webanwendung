@@ -32,31 +32,3 @@ export async function getBooks(searchTerm: any) {
 
   return data;
 }
-
-export async function getAllBooks() {
-  const GET_ALL_DATA = gql`
-    query {
-      buch {
-        version
-        isbn
-        art
-        homepage
-        rating
-        preis
-        rabatt
-        lieferbar
-        titel {
-          titel
-          untertitel
-        }
-      }
-    }
-  `;
-  console.log(GET_ALL_DATA);
-  const { data } = await client.query({
-    query: GET_ALL_DATA,
-  });
-  console.log(data);
-
-  return data;
-}
