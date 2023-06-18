@@ -11,11 +11,21 @@ export async function getBooks(searchTerm: any) {
   const GET_data = gql`
     query {
       buch(id: ${searchTerm}) {
-          version
-          isbn
-          art
-          titel {
-              titel
+        version
+        isbn
+        art
+        homepage
+        rating
+        preis
+        rabatt
+        lieferbar
+        titel {
+          titel
+          untertitel
+        }
+        abbildungen {
+          beschriftung
+          contentType
         }
       }
     }
