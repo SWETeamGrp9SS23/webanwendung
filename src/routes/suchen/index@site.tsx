@@ -20,10 +20,37 @@ class BookService {
 
 const bookService = new BookService();
 
+function displayBookDetails(book: any) {
+  return (
+    <div>
+      <h2>Book Details</h2>
+      <ul>
+        <li>ISBN: {book.isbn}</li>
+        <li>Homepage: {book.homepage}</li>
+        <li>Rating: {book.rating}</li>
+        <li>Preis: {book.preis}</li>
+        <li>Rabatt: {book.rabatt}</li>
+        <li>Lieferbar: {book.lieferbar}</li>
+        <li>Titel: {book.titel.titel}</li>
+        <li>Untertitel: {book.titel.untertitel}</li>
+        <li>Abbildungen:</li>
+        <ul>
+          {book.abbildungen &&
+            book.abbildungen.map((abbildung: any) => (
+              <li key={abbildung.beschriftung}>
+                Beschriftung: {abbildung.beschriftung}, Content Type:{" "}
+                {abbildung.contentType}
+              </li>
+            ))}
+        </ul>
+      </ul>
+    </div>
+  );
+}
+
 export default component$<BookSearchProps>(() => {
   const count = useSignal(0);
   const setBook = useSignal("");
-  const setBookObject = useSignal("");
 
   return (
     <>
@@ -60,7 +87,6 @@ export default component$<BookSearchProps>(() => {
                       JSON.stringify(bookService.getFoundBook(), null, 2),
                     );
                     setBook.value = bookService.getFoundBook().buch;
-                    setBookObject.value = bookService.getFoundBook().buch.titel;
                     console.log("ISBN: " + setBook.value);
                   } catch (error: any) {
                     if (error.graphQLErrors) {
@@ -79,32 +105,7 @@ export default component$<BookSearchProps>(() => {
         <div class="text-center">
           <h1>Suchanfragen: {count.value}</h1>
           <h1>Gefundene Bücher:</h1>
-          <div class="flex flex-col">
-            <div class="flex">
-              <div class="w-1/2 px-4 py-2 font-bold">Eigenschaft</div>
-              <div class="w-1/2 px-4 py-2 font-bold">Wert</div>
-            </div>
-            <div class="flex">
-              <div class="w-1/2 px-4 py-2">ISBN</div>
-              <div class="w-1/2 px-4 py-2">{setBook.value.isbn}</div>
-            </div>
-            <div class="flex">
-              <div class="w-1/2 px-4 py-2">Titel</div>
-              <div class="w-1/2 px-4 py-2">{setBookObject.value.titel}</div>
-            </div>
-            <div class="flex">
-              <div class="w-1/2 px-4 py-2">Buchtyp</div>
-              <div class="w-1/2 px-4 py-2">{setBook.value.__typename}</div>
-            </div>
-            <div class="flex">
-              <div class="w-1/2 px-4 py-2">Version</div>
-              <div class="w-1/2 px-4 py-2">{setBook.value.version}</div>
-            </div>
-            <div class="flex">
-              <div class="w-1/2 px-4 py-2">Art</div>
-              <div class="w-1/2 px-4 py-2">{setBook.value.art}</div>
-            </div>
-          </div>
+          {setBook.value && displayBookDetails(setBook.value)}
         </div>
       </div>
     </>
