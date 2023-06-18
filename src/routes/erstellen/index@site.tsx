@@ -208,6 +208,7 @@ export default component$<BookCreateProps>(() => {
                   token,
                 );
                 console.log('Erstelltes Buch: ' + book);
+                alert('Buch wurde erfolgreich erstellt');
               } catch (error: any) {
                 if (error.graphQLErrors) {
                   const message = error.graphQLErrors[0].message;
