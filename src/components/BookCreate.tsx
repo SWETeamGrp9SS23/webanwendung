@@ -1,8 +1,8 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { gql } from "@apollo/client";
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: "https://localhost:3000/graphql/",
+  uri: 'https://localhost:3000/graphql/',
   cache: new InMemoryCache(),
 });
 
@@ -19,7 +19,7 @@ export async function createBooks(
   lieferbar: Boolean,
   token: String,
 ) {
-  console.log("Ich bin in createBooks!");
+  console.log('Ich bin in createBooks!');
   const CREATE_data = gql`
     mutation Create(
       $isbn: String!

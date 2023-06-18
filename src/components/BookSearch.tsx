@@ -17,7 +17,6 @@ export async function getBooks(searchTerm: any) {
         rating
         preis
         rabatt
-        lieferbar
         titel {
           titel
           untertitel

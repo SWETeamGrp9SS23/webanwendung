@@ -30,7 +30,6 @@ function displayBookDetails(book: any) {
         <li>Rating: {book.rating}</li>
         <li>Preis: {book.preis}</li>
         <li>Rabatt: {book.rabatt}</li>
-        <li>Lieferbar: {book.lieferbar}</li>
         <li>Titel: {book.titel.titel}</li>
         <li>Untertitel: {book.titel.untertitel}</li>
       </ul>

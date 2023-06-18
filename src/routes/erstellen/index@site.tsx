@@ -39,7 +39,11 @@ export default component$<BookCreateProps>(() => {
           placeholder="ISBN"
           aria-label="ISBN"
           aria-describedby="button-addon2"
-          onInput$={(e) => (setIsbn.value = e.target.value)}
+          onInput$={(e) => {
+            if (e.target instanceof HTMLInputElement) {
+              setIsbn.value = e.target.value;
+            }
+          }}
         />
       </div>
       <div class="input-group mb-3">
@@ -49,7 +53,11 @@ export default component$<BookCreateProps>(() => {
           placeholder="Rating"
           aria-label="Rating"
           aria-describedby="button-addon2"
-          onInput$={(e) => (setRating.value = e.target.value)}
+          onInput$={(e) => {
+            if (e.target instanceof HTMLInputElement) {
+              setRating.value = e.target.value;
+            }
+          }}
         />
       </div>
       <div class="input-group mb-3">
@@ -59,7 +67,11 @@ export default component$<BookCreateProps>(() => {
           placeholder="Preis"
           aria-label="Preis"
           aria-describedby="button-addon2"
-          onInput$={(e) => (setPreis.value = e.target.value)}
+          onInput$={(e) => {
+            if (e.target instanceof HTMLInputElement) {
+              setPreis.value = e.target.value;
+            }
+          }}
         />
       </div>
       <div class="input-group mb-3">
@@ -69,7 +81,11 @@ export default component$<BookCreateProps>(() => {
           placeholder="Rabatt"
           aria-label="Rabatt"
           aria-describedby="button-addon2"
-          onInput$={(e) => (setRabatt.value = e.target.value)}
+          onInput$={(e) => {
+            if (e.target instanceof HTMLInputElement) {
+              setRabatt.value = e.target.value;
+            }
+          }}
         />
       </div>
       <div class="form-check mb-3">
@@ -77,7 +93,12 @@ export default component$<BookCreateProps>(() => {
           type="checkbox"
           class="form-check-input"
           id="lieferbar"
-          onInput$={(e) => (setLieferbar.value = e.target.value)} // Lieferbar-Wert aktualisieren
+          onInput$={(e) => {
+            if (e.target instanceof HTMLInputElement) {
+              setLieferbar.value = e.target.value === 'true';
+            }
+          }}
+          // Lieferbar-Wert aktualisieren
         />
         <label class="form-check-label">Lieferbar</label>
       </div>
@@ -88,7 +109,11 @@ export default component$<BookCreateProps>(() => {
           placeholder="Homepage"
           aria-label="Homepage"
           aria-describedby="button-addon2"
-          onInput$={(e) => (setHomepage.value = e.target.value)}
+          onInput$={(e) => {
+            if (e.target instanceof HTMLInputElement) {
+              setHomepage.value = e.target.value;
+            }
+          }}
         />
       </div>
       <div class="input-group mb-3">
@@ -98,7 +123,11 @@ export default component$<BookCreateProps>(() => {
           placeholder="Titel"
           aria-label="Titel"
           aria-describedby="button-addon2"
-          onInput$={(e) => (setTitel.value = e.target.value)}
+          onInput$={(e) => {
+            if (e.target instanceof HTMLInputElement) {
+              setTitel.value = e.target.value;
+            }
+          }}
         />
       </div>
       <div class="input-group mb-3">
@@ -108,7 +137,11 @@ export default component$<BookCreateProps>(() => {
           placeholder="Untertitel"
           aria-label="Untertitel"
           aria-describedby="button-addon2"
-          onInput$={(e) => (setUntertitel.value = e.target.value)}
+          onInput$={(e) => {
+            if (e.target instanceof HTMLInputElement) {
+              setUntertitel.value = e.target.value;
+            }
+          }}
         />
       </div>
       <div class="input-group mb-3">
@@ -118,7 +151,11 @@ export default component$<BookCreateProps>(() => {
           placeholder="Beschriftung"
           aria-label="Beschriftung"
           aria-describedby="button-addon2"
-          onInput$={(e) => (setBeschriftung.value = e.target.value)}
+          onInput$={(e) => {
+            if (e.target instanceof HTMLInputElement) {
+              setBeschriftung.value = e.target.value;
+            }
+          }}
         />
       </div>
       <div class="input-group mb-3">
@@ -128,7 +165,11 @@ export default component$<BookCreateProps>(() => {
           placeholder="ContentType"
           aria-label="ContentType"
           aria-describedby="button-addon2"
-          onInput$={(e) => (setContentType.value = e.target.value)}
+          onInput$={(e) => {
+            if (e.target instanceof HTMLInputElement) {
+              setContentType.value = e.target.value;
+            }
+          }}
         />
       </div>
       <div></div>
@@ -151,26 +192,30 @@ export default component$<BookCreateProps>(() => {
             //JWT-Token aus Local Storage der Website holen
             const token = localStorage.getItem('jwtToken');
 
-            try {
-              const book = await createBooks(
-                isbn,
-                homepage,
-                titel,
-                untertitel,
-                beschriftung,
-                contentType,
-                rating,
-                preis,
-                rabatt,
-                lieferbar,
-                token,
-              );
-              console.log('Erstelltes Buch: ' + book);
-            } catch (error: any) {
-              if (error.graphQLErrors) {
-                const message = error.graphQLErrors[0].message;
-                alert(message);
+            if (token !== null) {
+              try {
+                const book = await createBooks(
+                  isbn,
+                  homepage,
+                  titel,
+                  untertitel,
+                  beschriftung,
+                  contentType,
+                  rating,
+                  preis,
+                  rabatt,
+                  lieferbar,
+                  token,
+                );
+                console.log('Erstelltes Buch: ' + book);
+              } catch (error: any) {
+                if (error.graphQLErrors) {
+                  const message = error.graphQLErrors[0].message;
+                  alert(message);
+                }
               }
+            } else {
+              alert('Token war leer');
             }
           }}
         >

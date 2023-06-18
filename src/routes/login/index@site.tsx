@@ -14,13 +14,18 @@ class AuthService {
     return this.loggedInUser;
   }
 }
+interface Output {
+  token: string;
+  expiresIn: string;
+  roles: string;
+}
 
 const authService = new AuthService();
 
 export default component$<LoginProps>(() => {
   const setUsername = useSignal('');
   const setPassword = useSignal('');
-  const getOutput = useSignal('');
+  const getOutput = useSignal<Output>({ token: '', expiresIn: '', roles: '' });
 
   return (
     <>
@@ -35,7 +40,11 @@ export default component$<LoginProps>(() => {
             placeholder="Benutzername"
             aria-label="Benutzername"
             aria-describedby="button-addon2"
-            onInput$={(e) => (setUsername.value = e.target.value)}
+            onInput$={(e) => {
+              if (e.target instanceof HTMLInputElement) {
+                setUsername.value = e.target.value;
+              }
+            }}
           />
         </div>
         <div class="input-group mb-3">
@@ -45,7 +54,11 @@ export default component$<LoginProps>(() => {
             placeholder="Passwort"
             aria-label="Passwort"
             aria-describedby="button-addon2"
-            onInput$={(e) => (setPassword.value = e.target.value)}
+            onInput$={(e) => {
+              if (e.target instanceof HTMLInputElement) {
+                setPassword.value = e.target.value;
+              }
+            }}
           />
         </div>
         <div class="input-group-append">
@@ -74,7 +87,6 @@ export default component$<LoginProps>(() => {
                 );
                 getOutput.value = authService.getLoggedInUser().login;
                 console.log('User:');
-                console.log(getOutput.value.token);
                 localStorage.setItem('jwtToken', getOutput.value.token);
               } catch (error: any) {
                 if (error.graphQLErrors) {
