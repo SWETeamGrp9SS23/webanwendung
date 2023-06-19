@@ -1,12 +1,12 @@
-import { component$ } from "@builder.io/qwik";
-import { Link } from "@builder.io/qwik-city";
-import { FaIcon } from "qwik-fontawesome";
+import { component$ } from '@builder.io/qwik';
+import { Link } from '@builder.io/qwik-city';
+import { FaIcon } from 'qwik-fontawesome';
 import {
   faHome,
   faSearch,
   faSignInAlt,
   faBook,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 
 export const Navigation = component$(() => {
   return (

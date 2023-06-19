@@ -1,6 +1,6 @@
-import { component$, Slot } from "@builder.io/qwik";
-import type { RequestHandler } from "@builder.io/qwik-city";
-import { Navigation } from "~/components/navigation/navigation";
+import { component$, Slot } from '@builder.io/qwik';
+import type { RequestHandler } from '@builder.io/qwik-city';
+import { Navigation } from '~/components/navigation/navigation';
 
 export default component$(() => {
   return (

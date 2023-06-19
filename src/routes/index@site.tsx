@@ -1,7 +1,7 @@
-import type { DocumentHead } from "@builder.io/qwik-city";
-import { component$ } from "@builder.io/qwik";
-import { FaIcon, FaStylesheet } from "qwik-fontawesome";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
+import type { DocumentHead } from '@builder.io/qwik-city';
+import { component$ } from '@builder.io/qwik';
+import { FaIcon, FaStylesheet } from 'qwik-fontawesome';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 
 export default component$(() => {
   return (
@@ -32,11 +32,11 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-  title: "Home Page",
+  title: 'Home Page',
   meta: [
     {
-      name: "Nice Web Application",
-      content: "Website description",
+      name: 'Nice Web Application',
+      content: 'Website description',
     },
   ],
 };
