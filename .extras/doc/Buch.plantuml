@@ -1,45 +1,63 @@
 @startuml Zustandsdiagramm
-[*] --> StartMenü
 
-state StartMenü {
-  [*] --> StartMenü: Zeige Startmenü
-  StartMenü --> Login: Klicke "Login"
-  StartMenü --> BuchSuche: Klicke "Buch suchen"
-  StartMenü --> BuchErstellen: Klicke "Buch erstellen"
+skinparam state {
+    BackgroundColor LightGrey
 }
 
-state Login {
-  Login --> BuchErstellen: Klicke "Buch erstellen"
-  Login --> BuchSuche: Klicke "Buch suchen"
-  Login --> StartMenü: Klicke "Home"
+state index {
+    [*] --> Home
+    
+    state Verteilung <<choice>>
+    Home --> Verteilung
+    
+    Verteilung --> auth: Button "Login"
+    auth --> Verteilung: Button "Home"
+
+    Verteilung --> create: Button "Buch anlegen"
+    create --> Verteilung: Button "Home"
+    Verteilung --> root: Button "Bücher suchen"
+    root --> Verteilung: Button "Home"
+
+
+    index: jwt roles expiration
+  
+    state "Login" as auth {
+        Anmeldeformular: username
+        Anmeldeformular: password
+        state Anmeldergebnis <<choice>>
+
+        [*] --> Anmeldeformular
+        Anmeldeformular --> Anmeldergebnis
+        Anmeldergebnis --> AnmeldeFehler: Fehlerhafte Daten
+        Anmeldergebnis --> [*]: Erfolg
+    }
+
+    state "Buch erstellen" as create {
+        Anlegeformular: form
+        state Anmeldeergebnis <<choice>>
+
+        [*] --> Anlegeformular
+        Anlegeformular --> Anmeldeergebnis
+        Anmeldeergebnis --> AnlegeFehler: Fehlerhafte Daten
+        Anmeldeergebnis --> [*]: Erfolg
+    }
+
+    state "Buch suchen" as root {
+        Suchformular: suchkriterien
+        state Suchergebnis <<choice>>
+
+        [*] --> Suchformular
+        Suchformular --> Bestätigung: Eingabe Id "Id eingeben"
+        Bestätigung --> Waiting: Button "Suche Buch"
+        Waiting --> BookSearch: Suche nach Id
+        BookSearch --> Suchergebnis
+        Suchergebnis --> GefundeneBuecher: 1 Buch gefunden
+        Suchergebnis --> KeineBuecher: Keine Bücher
+        GefundeneBuecher -->  DetailsBuch: Details angezeigt
+    }
+
+
+
 }
 
-state BuchSuche {
-  BuchSuche --> BuchDetails: Suche abschicken
-  BuchSuche --> Login: Klicke "Login"
-  BuchSuche --> BuchErstellen: Klicke "Buch erstellen"
-  BuchSuche --> StartMenü: Klicke "Home"
-}
-
-state BuchErstellen {
-  BuchErstellen --> BuchErstellt: Klicke "Buch erstellen"
-  BuchErstellen --> StartMenü: Klicke "Home"
-}
-
-state BuchDetails {
-}
-
-state BuchErstellt {
-}
-
-StartMenü -down-> Login
-Login -down-> BuchSuche
-BuchSuche -down-> BuchErstellen
-
-StartMenü: Zeige Startmenü
-Login: Zeige Anmeldeseite
-BuchSuche: Zeige Buchsuche-Seite
-BuchErstellen: Zeige Bucherstellungsseite
-BuchDetails: Zeige Buchdetails (ISBN, Titel, Buchtyp, Version, Art)
-BuchErstellt: Zeige Bestätigung für Bucherstellung
 @enduml
